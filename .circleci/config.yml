@@ -7,7 +7,7 @@ commands:
           name: "Destroy cloud formation stack"
           when: on_fail
           command: |
-            aws coludformation delete-stack \
+            aws cloudformation delete-stack \
               --stack-name ciStack-${CIRCLE_WORKFLOW_ID:0:5} \
                 --region us-west-2
 
