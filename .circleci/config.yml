@@ -44,6 +44,6 @@ jobs:
 workflows:
   deployment-workflow:
     jobs:
-      - create_infrastructure
+#      - create_infrastructure
 
-#      - configure_infrastructure
+      - configure_infrastructure
