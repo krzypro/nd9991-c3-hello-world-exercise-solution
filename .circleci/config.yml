@@ -59,17 +59,32 @@ jobs:
               return 1
             fi
       - destroy_infrastructure
-        
+
+  create_and_deploy_front_end:
+    docker:
+    - image: amazon/aws-cli
+    steps:
+    - checkout
+    - run:
+        name: Execute bucket.yml - Create Cloudformation Stack
+        command: |
+          aws cloudformation deploy \
+            --template-file bucket.yml \
+            --stack-name stack-create-bicket-${CIRCLE_WORKFLOW_ID:0:7} \
+            --parameter-overrides MyBucketName="my-bucket-${CIRCLE_WORKFLOW_ID:0:7}"
+    - run: aws s3 sync . s3://my-bucket-${CIRCLE_WORKFLOW_ID:0:7} --delete      
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   deployment-workflow:
     jobs:
-      - create_infrastructure
+#      - create_infrastructure
 
 #      - configure_infrastructure
 
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      # - smoke_test:
+      #     requires:
+      #       - create_infrastructure
+
+      - create_and_deploy_front_end
