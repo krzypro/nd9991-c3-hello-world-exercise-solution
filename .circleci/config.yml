@@ -123,7 +123,7 @@ jobs:
             aws s3 rm "s3://${OldBucketID}" --recursive
             aws cloudformation delete-stack \
               --stack-name "stack-create-bucket-${OldBucketID}"
-
+              --region us-west-2
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
