@@ -9,7 +9,7 @@ commands:
           command: |
             aws cloudformation delete-stack \
               --stack-name ciStack-${CIRCLE_WORKFLOW_ID:0:5} \
-                --region us-west-2
+                --region=us-west-2
 
 jobs:
   create_infrastructure:
@@ -23,7 +23,7 @@ jobs:
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name ciStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --region us-west-2
+              --region=us-west-2
 
   configure_infrastructure:
     docker: 
@@ -74,7 +74,7 @@ jobs:
               --template-file bucket.yml \
               --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides MyBucketName="my-bucket-${CIRCLE_WORKFLOW_ID:0:7}"
-      - run: aws s3 sync . s3://my-bucket-${CIRCLE_WORKFLOW_ID:0:7} --delete --region us-west-2
+      - run: aws s3 sync . s3://my-bucket-${CIRCLE_WORKFLOW_ID:0:7} --delete --region=us-west-2
 
   get_last_deployment_id:
     docker:
@@ -87,7 +87,7 @@ jobs:
           command: |
             aws cloudformation \
               list-exports --query "Exports[?Name=='PipelineID'].Value" \
-              --no-paginate --output text > ~/textfile.txt --region us-west-2
+              --no-paginate --output text > ~/textfile.txt --region=us-west-2
       - persist_to_workspace:
           root: ~/
           paths: 
@@ -123,7 +123,7 @@ jobs:
             aws s3 rm "s3://${OldBucketID}" --recursive
             aws cloudformation delete-stack \
               --stack-name "stack-create-bucket-${OldBucketID}" \
-              --region us-west-2
+              --region=us-west-2
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
