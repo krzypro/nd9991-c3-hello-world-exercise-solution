@@ -74,7 +74,6 @@ jobs:
               --template-file bucket.yml \
               --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides MyBucketName="my-bucket-${CIRCLE_WORKFLOW_ID:0:7}"
-              --region us-west-2
       - run: aws s3 sync . s3://my-bucket-${CIRCLE_WORKFLOW_ID:0:7} --delete --region us-west-2
 
   get_last_deployment_id:
@@ -106,7 +105,6 @@ jobs:
               --template-file cloudfront.yml \
               --stack-name prod-distro \
               --parameter-overrides PipelineID="my-bucket-${CIRCLE_WORKFLOW_ID:0:7}"
-              --region us-west-2
 
   clean_up_old_front_end:
     docker:
