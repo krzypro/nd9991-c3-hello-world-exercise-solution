@@ -118,7 +118,7 @@ jobs:
           name: Destroy the previous S3 bucket and CloudFormation stack
           command: |
             export OldBucketID=$(cat ~/textfile.txt)
-            aws sc rm "s3://${OldBucketID}" --recursive
+            aws s3 rm "s3://${OldBucketID}" --recursive
 
 
 
